@@ -23,9 +23,9 @@ import java.util.List;
  * @author xiaojun
  *
  */
-@Slf4j
-@Configuration
-@EnableConfigurationProperties({ServerProperties.class, WebProperties.class})
+//@Slf4j
+//@Configuration
+//@EnableConfigurationProperties({ServerProperties.class, WebProperties.class})
 public class ErrorHandlerConfiguration {
 
     private final ServerProperties serverProperties;

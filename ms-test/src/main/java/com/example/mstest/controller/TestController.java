@@ -21,6 +21,11 @@ public class TestController {
         return "This is starter test";
     }
 
+    @GetMapping("/void")
+    public void testVoid() {
+        System.out.println("testVoid");
+    }
+
     @GetMapping("/exception")
     public String exception() throws Exception {
         throw new Exception("TestException");

@@ -1,9 +1,9 @@
 package com.ms.gateway.config;
 
+import com.alibaba.nacos.common.utils.StringUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.boot.autoconfigure.web.reactive.error.DefaultErrorWebExceptionHandler;
@@ -57,7 +57,7 @@ public class GlobalExceptionHandler extends DefaultErrorWebExceptionHandler {
                     DataBufferFactory bufferFactory = response.bufferFactory();
                     try {
                         String errMsg = ex.getMessage();
-                        if (StringUtils.startsWith(ex.getMessage(), "503 SERVICE_UNAVAILABLE ")) {
+                        if (StringUtils.containsIgnoreCase(ex.getMessage(), "503 SERVICE_UNAVAILABLE ")) {
 //                            errMsg = "服务异常";
                         }
                         Object o = response(100103, errMsg);

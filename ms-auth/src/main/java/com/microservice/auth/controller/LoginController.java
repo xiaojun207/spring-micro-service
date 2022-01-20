@@ -28,10 +28,10 @@ public class LoginController {
         return "this is a set test:" + req;
     }
 
-    @GetMapping("/checkToken")
-    public void checkToken(String token) throws Exception {
-        log.info("token:" + token);
-        if ("12345".equals(token)) {
+    @GetMapping("/checkAuth")
+    public void checkAuth(String token, String path) throws Exception {
+        log.info("token:" + token + ", path:" + path);
+        if ("TestToken".equals(token)) {
             return;
         }
         throw new Exception("Token失效");

@@ -2,9 +2,11 @@ package com.ms.gateway.filter;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ms.gateway.config.AuthExclusion;
+import com.ms.gateway.feign.AuthClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
@@ -17,12 +19,17 @@ import reactor.core.publisher.Mono;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.*;
+
 @Slf4j
 @Component
-public class AuthFilter implements GatewayFilter, Ordered {
+public class AuthFilter implements GlobalFilter, Ordered {
 
     @Autowired
     private AuthExclusion exclusion;
+    @Autowired
+    private AuthClient authClient;
+    ExecutorService executorService = Executors.newFixedThreadPool(1);
 
 
     /**
@@ -61,7 +68,17 @@ public class AuthFilter implements GatewayFilter, Ordered {
         String authorization = request.getHeaders().getFirst("authorization");
         String path = request.getURI().getPath();
         log.info("checkAuth:" + path + ", authorization:" + authorization);
-        return true;
+        Future<JSONObject> future = executorService.submit(() -> authClient.checkAuth(authorization, path));
+        JSONObject resp = null;
+        try {
+            resp = future.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        log.info("checkAuth.resp:" + resp);
+       return "100200".equals(resp.getString("code"));
     }
 
     private Mono<Void> getVoidMono(ServerHttpResponse response, int code, String msg) {
