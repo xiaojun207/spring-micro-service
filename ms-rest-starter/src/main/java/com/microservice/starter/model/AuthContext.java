@@ -42,6 +42,13 @@ public class AuthContext {
         return res;
     }
 
+    public static AuthContext build(String authorization) {
+        AuthContext res = new AuthContext();
+        res.authorization = authorization;
+        res.parseAuthorization();
+        return res;
+    }
+
     public void parseAuthorization() {
         // 解析authorization 获取信息
         String authStr = this.authorization;

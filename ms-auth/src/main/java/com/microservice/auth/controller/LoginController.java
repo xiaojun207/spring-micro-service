@@ -34,9 +34,7 @@ public class LoginController {
 
     @GetMapping("/checkAuth")
     public void checkAuth(String authorization, String path) throws Exception {
-        var authContext = new AuthContext();
-        authContext.setAuthorization(authorization);
-        authContext.parseAuthorization();
+        var authContext = AuthContext.build(authorization);
         Long uid = loginService.getUidByToken(authContext.getToken());
         permissionService.checkAuth(uid, path);
         throw new Exception("Token失效");
