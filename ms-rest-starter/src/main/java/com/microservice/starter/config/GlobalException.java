@@ -40,6 +40,7 @@ public class GlobalException {
     @ExceptionHandler
     public ApiResp handleException(Exception e) {
 //        log.info("handleException.name:" + e.getClass().getName());
+        log.error("handleException:", e);
         return ApiResp.fail(CommonCodeConst.SERVICE_ERROR, e.getMessage());
     }
 
