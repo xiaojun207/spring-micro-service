@@ -13,6 +13,7 @@ public class UserController {
         res.put("uid", 1);
         res.put("username", "admin");
         res.put("avatar", "http://www.abc.com/ab.png");
+        res.put("roles", new String[]{"admin"});
         return res;
     }
 

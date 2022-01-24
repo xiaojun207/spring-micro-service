@@ -1,11 +1,14 @@
 package com.microservice.auth.controller;
 
-import com.alibaba.fastjson.JSONObject;
+import com.microservice.auth.dto.UserDto;
+import com.microservice.auth.service.LoginService;
+import com.microservice.auth.service.PermissionService;
+import com.microservice.starter.model.AuthContext;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
@@ -14,26 +17,25 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/")
 public class LoginController {
 
+    @Autowired
+    LoginService loginService;
+
+    @Autowired
+    PermissionService permissionService;
+
     @PostMapping("/login")
-    public String post(@RequestBody JSONObject req, HttpServletRequest request, HttpServletResponse response) {
-        log.info("login.post:" + req);
-        String username = req.getString("username");
-        String password = req.getString("password");
-        if("admin".equals(username) && "123456".equals(password)){
-            String token = "TestToken";
-            response.addCookie(new Cookie("authorization", token));
-            response.addHeader("authorization", token);
-            return token;
-        }
-        return "this is a set test:" + req;
+    public String login(@RequestBody UserDto req, HttpServletResponse response, AuthContext authContext) {
+        log.info("login.login:" + req);
+        String token = loginService.login(req, authContext);
+        response.addCookie(new Cookie("authorization", token));
+        response.addHeader("authorization", token);
+        return token;
     }
 
     @GetMapping("/checkAuth")
     public void checkAuth(String token, String path) throws Exception {
-        log.info("token:" + token + ", path:" + path);
-        if ("TestToken".equals(token)) {
-            return;
-        }
+        Long uid = loginService.getUidByToken(token);
+        permissionService.checkAuth(uid, path);
         throw new Exception("Token失效");
     }
 
