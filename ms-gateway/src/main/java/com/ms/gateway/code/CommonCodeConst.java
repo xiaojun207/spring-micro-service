@@ -1,4 +1,4 @@
-package com.microservice.starter.code;
+package com.ms.gateway.code;
 
 /**
  * 通用

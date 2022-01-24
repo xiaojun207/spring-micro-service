@@ -8,5 +8,5 @@ public interface CaptchaCodeService {
 
     String getCode(String key);
 
-    void delCode(String captchaNo);
+    void delCode(String captchaKey);
 }

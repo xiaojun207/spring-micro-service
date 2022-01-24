@@ -24,27 +24,27 @@ public class CaptchaCodeServiceImpl implements CaptchaCodeService {
 	private Producer captchaProducer;
 
 	@Override
-	public BufferedImage createCode(String captchaNo) {
+	public BufferedImage createCode(String captchaKey) {
 		String code = captchaProducer.createText();
-		String codeKey = "code:" + captchaNo;
+		String codeKey = "code:" + captchaKey;
 		redisTemplate.boundValueOps(codeKey).set(code, CAPTCHA_EXPIRE_TIME, TimeUnit.SECONDS);
 		return captchaProducer.createImage(code);
 	}
 
 	@Override
-	public String getCode(String captchaNo) {
-		if (StringUtils.isBlank(captchaNo)) {
+	public String getCode(String captchaKey) {
+		if (StringUtils.isBlank(captchaKey)) {
 			return "";
 		}
-		String codeKey = "code:" + captchaNo;
+		String codeKey = "code:" + captchaKey;
 		String code = redisTemplate.boundValueOps(codeKey).get();
 		log.info("获取到的key:{},value:{}", codeKey, code);
 		return code;
 	}
 
 	@Override
-	public void delCode(String captchaNo) {
-		String codeKey = "code:" + captchaNo;
+	public void delCode(String captchaKey) {
+		String codeKey = "code:" + captchaKey;
 		redisTemplate.delete(codeKey);
 	}
 

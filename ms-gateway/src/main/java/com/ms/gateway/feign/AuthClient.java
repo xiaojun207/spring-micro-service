@@ -10,5 +10,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface AuthClient {
 
     @RequestMapping(value = "/checkAuth", method = RequestMethod.GET)
-    JSONObject checkAuth(@RequestParam String token, @RequestParam String path);
+    JSONObject checkAuth(@RequestParam String authorization, @RequestParam String path);
 }

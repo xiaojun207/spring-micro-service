@@ -1,5 +1,6 @@
 package com.microservice.auth.strategy;
 
+import com.microservice.auth.code.AuthCodeConst;
 import com.microservice.auth.service.CaptchaCodeService;
 import com.microservice.starter.exception.AppException;
 import com.microservice.starter.model.AuthContext;
@@ -11,9 +12,6 @@ import org.springframework.stereotype.Service;
 
 /**
  * 校验图形验证码策略方法
- *
- * @author liuze
- *
  */
 @Service("CaptchaCodeStrategy")
 @Slf4j
@@ -25,21 +23,21 @@ public class CaptchaCodeStrategy implements StrategyService {
 	@Override
 	public void pre(AuthContext authContext) {
 		String code = authContext.getCaptchaCode();
-		String captchaNo = authContext.getCaptchaNo();
+		String captchaKey = authContext.getCaptchaKey();
 
-		String captchaCode = captchaCodeService.getCode(captchaNo);
+		String captchaCode = captchaCodeService.getCode(captchaKey);
 
 		boolean isValid = code.equalsIgnoreCase(captchaCode);
-		captchaCodeService.delCode(authContext.getCaptchaNo());
+		captchaCodeService.delCode(authContext.getCaptchaKey());
 
 		if (!isValid) {
-			throw new AppException("100301", "图形验证码错误");
+			throw new AppException(AuthCodeConst.CAPTCHA_CODE_ERROR, "图形验证码错误");
 		}
 	}
 
 	@Override
 	public boolean match(AuthContext authContext) {
-		return StringUtils.isNotBlank(authContext.getCaptchaNo());
+		return StringUtils.isNotBlank(authContext.getCaptchaKey());
 	}
 
 	@Override

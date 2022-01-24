@@ -1,7 +1,9 @@
 package com.ms.gateway.config;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ms.gateway.code.CommonCodeConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -38,16 +40,21 @@ public class GlobalExceptionConfiguration implements ErrorWebExceptionHandler {
             response.setStatusCode(((ResponseStatusException) ex).getStatus());
         }
 
-        return response
-                .writeWith(Mono.fromSupplier(() -> {
-                    DataBufferFactory bufferFactory = response.bufferFactory();
-                    try {
-                        return bufferFactory.wrap(objectMapper.writeValueAsBytes(Resp.fail("100102", ex.getMessage())));
-                    } catch (JsonProcessingException e) {
-                        log.warn("Error writing response", ex);
-                        return bufferFactory.wrap(new byte[0]);
-                    }
-                }));
+        var dataBufferMono = Mono.fromSupplier(() -> {
+            DataBufferFactory bufferFactory = response.bufferFactory();
+            try {
+                JSONObject json = new JSONObject();
+                json.put("code", CommonCodeConst.SERVICE_ERROR);
+                json.put("msg", ex.getMessage());
+
+                return bufferFactory.wrap(objectMapper.writeValueAsBytes(json));
+            } catch (JsonProcessingException e) {
+                log.warn("Error writing response", ex);
+                return bufferFactory.wrap(new byte[0]);
+            }
+        });
+
+        return response.writeWith(dataBufferMono);
     }
 
 

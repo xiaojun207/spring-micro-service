@@ -33,8 +33,11 @@ public class LoginController {
     }
 
     @GetMapping("/checkAuth")
-    public void checkAuth(String token, String path) throws Exception {
-        Long uid = loginService.getUidByToken(token);
+    public void checkAuth(String authorization, String path) throws Exception {
+        var authContext = new AuthContext();
+        authContext.setAuthorization(authorization);
+        authContext.parseAuthorization();
+        Long uid = loginService.getUidByToken(authContext.getToken());
         permissionService.checkAuth(uid, path);
         throw new Exception("Token失效");
     }

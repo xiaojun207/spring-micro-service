@@ -1,5 +1,6 @@
 package com.microservice.auth.controller;
 
+import com.microservice.auth.code.AuthCodeConst;
 import com.microservice.auth.service.CaptchaCodeService;
 import com.microservice.starter.exception.AppException;
 import lombok.extern.slf4j.Slf4j;
@@ -57,7 +58,7 @@ public class CaptchaController {
 		String captchaCode = captchaCodeService.getCode(randomKey);
 		boolean isValid = StringUtils.equalsIgnoreCase(code, captchaCode);
 		if (!isValid) {
-			throw new AppException("100301", "图形验证码错误");
+			throw new AppException(AuthCodeConst.CAPTCHA_CODE_ERROR, "图形验证码错误");
 		}
 	}
 }
