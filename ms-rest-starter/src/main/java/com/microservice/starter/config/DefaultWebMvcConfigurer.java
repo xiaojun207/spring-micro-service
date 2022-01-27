@@ -8,8 +8,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.List;
 
 @Component
-public class DefaultWebMvcConfigurer implements WebMvcConfigurer {
+public class DefaultWebMvcConfigurer implements WebMvcConfigurer { // extends WebMvcConfigurerAdapter
 
+    @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new AuthContextResolver());
     }

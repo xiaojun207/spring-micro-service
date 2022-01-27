@@ -20,5 +20,9 @@ public class CommonCodeConst {
 	public static final String FIELD_EMPTY = "100106";
 	// 传入字段校验错误
 	public static final String FIELD_ERROR = "100107";
+	// Token失效
+	public static final String TOKEN_INVALID = "100108";
+
+
 
 }
