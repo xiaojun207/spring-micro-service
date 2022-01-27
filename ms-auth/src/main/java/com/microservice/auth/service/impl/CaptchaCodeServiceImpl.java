@@ -14,8 +14,8 @@ import java.util.concurrent.TimeUnit;
 @Service
 @Slf4j
 public class CaptchaCodeServiceImpl implements CaptchaCodeService {
-
-	public static final long CAPTCHA_EXPIRE_TIME = 60 * 10;
+	// 验证码有效期，1分钟
+	public static final long CAPTCHA_EXPIRE_TIME = 60 * 1;
 
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
@@ -26,7 +26,7 @@ public class CaptchaCodeServiceImpl implements CaptchaCodeService {
 	@Override
 	public BufferedImage createCode(String captchaKey) {
 		String code = captchaProducer.createText();
-		String codeKey = "code:" + captchaKey;
+		String codeKey = "captcha:code:" + captchaKey;
 		redisTemplate.boundValueOps(codeKey).set(code, CAPTCHA_EXPIRE_TIME, TimeUnit.SECONDS);
 		return captchaProducer.createImage(code);
 	}
@@ -36,15 +36,15 @@ public class CaptchaCodeServiceImpl implements CaptchaCodeService {
 		if (StringUtils.isBlank(captchaKey)) {
 			return "";
 		}
-		String codeKey = "code:" + captchaKey;
+		String codeKey = "captcha:code:" + captchaKey;
 		String code = redisTemplate.boundValueOps(codeKey).get();
-		log.info("获取到的key:{},value:{}", codeKey, code);
+		log.info("获取到的captcha.codeKey:{},code:{}", codeKey, code);
 		return code;
 	}
 
 	@Override
 	public void delCode(String captchaKey) {
-		String codeKey = "code:" + captchaKey;
+		String codeKey = "captcha:code:" + captchaKey;
 		redisTemplate.delete(codeKey);
 	}
 

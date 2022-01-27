@@ -5,8 +5,10 @@ import com.microservice.starter.model.AuthContext;
 
 public interface LoginService {
 
-    String login(UserDto user, AuthContext authContext);
+    String login(UserDto user);
+    void logout(AuthContext authContext);
 
     Long getUidByToken(String token);
+
 
 }

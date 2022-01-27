@@ -18,7 +18,7 @@ public class User implements Serializable, IUser {
     private Long uid;
 
     @Column(name = "nickname", length = 32)
-    private String nickName;
+    private String nickname;
 
     @Column(name = "mobile", length = 20)
     private String mobile;

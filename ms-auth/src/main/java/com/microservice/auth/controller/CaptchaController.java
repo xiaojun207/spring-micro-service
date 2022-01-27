@@ -2,6 +2,8 @@ package com.microservice.auth.controller;
 
 import com.microservice.auth.code.AuthCodeConst;
 import com.microservice.auth.service.CaptchaCodeService;
+import com.microservice.auth.strategy.InnerApiStrategyService;
+import com.microservice.starter.annotation.Strategy;
 import com.microservice.starter.exception.AppException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -52,7 +54,11 @@ public class CaptchaController {
 
 	/**
 	 * 验证图形验证吗
+	 * 仅内部可调用
+	 * @param code
+	 * @param randomKey
 	 */
+	@Strategy(strategyClass = {InnerApiStrategyService.class})
 	@RequestMapping(value = "/validate", method = RequestMethod.GET)
 	public void validCaptchaCode(@RequestParam("code") String code, @RequestParam("randomKey") String randomKey) {
 		String captchaCode = captchaCodeService.getCode(randomKey);

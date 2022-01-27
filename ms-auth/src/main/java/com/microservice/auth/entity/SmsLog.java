@@ -10,20 +10,17 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "role_uri")
-public class RoleUri implements Serializable {
+@Table(name = "sms_log")
+public class SmsLog implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "role_id")
-    private Long roleId;
+    @Column(name = "mobile", length = 16)
+    private String mobile;
 
-    @Column(name = "method", length = 10)
-    private String method;
-
-    @Column(name = "uri", length = 128)
-    private String uri;
+    @Column(name = "msg", length = 140)
+    private String msg;
 
     @CreatedDate
     @Column(name = "create_date")

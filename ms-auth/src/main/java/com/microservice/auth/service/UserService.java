@@ -1,5 +1,8 @@
 package com.microservice.auth.service;
 
-public interface UserService {
+import com.microservice.auth.entity.User;
+
+
+public interface UserService extends JpaService<User, Long>{
 
 }

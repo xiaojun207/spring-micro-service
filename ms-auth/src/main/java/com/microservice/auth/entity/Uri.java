@@ -22,6 +22,9 @@ public class Uri implements Serializable {
     @Column(name = "uri", length = 128)
     private String uri;
 
+    @Column(name = "description", length = 128)
+    private String description;
+
     @CreatedDate
     @Column(name = "create_date")
     private Date createDate;

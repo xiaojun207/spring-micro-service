@@ -19,6 +19,9 @@ public class Role implements Serializable {
     @Column(name = "name", length = 32)
     private String name;
 
+    @Column(name = "description", length = 32)
+    private String description;
+
     @CreatedDate
     @Column(name = "create_date")
     private Date createDate;

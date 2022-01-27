@@ -2,9 +2,11 @@ package com.microservice.auth.service.impl;
 
 import com.microservice.auth.entity.Role;
 import com.microservice.auth.entity.RoleUri;
+import com.microservice.auth.entity.Uri;
 import com.microservice.auth.entity.UserRole;
 import com.microservice.auth.repository.IRoleRepository;
 import com.microservice.auth.repository.IRoleUriRepository;
+import com.microservice.auth.repository.IUriRepository;
 import com.microservice.auth.repository.IUserRoleRepository;
 import com.microservice.auth.service.PermissionService;
 import com.microservice.starter.code.CommonCodeConst;
@@ -26,6 +28,8 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Autowired
     IRoleRepository roleRepository;
+    @Autowired
+    IUriRepository uriRepository;
     @Autowired
     IUserRoleRepository userRoleRepository;
     @Autowired
@@ -56,10 +60,23 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public void addRole(String name) {
-        Role r = new Role();
-        r.setName(name);
-        roleRepository.saveAndFlush(r);
+    public List<Role> getRoleList() {
+        return roleRepository.findAll();
+    }
+
+    @Override
+    public void addRole(Role role) {
+        roleRepository.saveAndFlush(role);
+    }
+
+    @Override
+    public void updateRole(Role role) {
+        roleRepository.saveAndFlush(role);
+    }
+
+    @Override
+    public void deleteRole(Long id) {
+        roleRepository.deleteById(id);
     }
 
     @Override
@@ -83,6 +100,17 @@ public class PermissionServiceImpl implements PermissionService {
         List<Long> list = Arrays.stream(roleIds).collect(Collectors.toList());
         userRoleRepository.deleteAllByUidAndRoleIds(uid, list);
         this.loadRoleUriToRedis();
+    }
+
+
+    @Override
+    public List<Uri> getUriList() {
+        return uriRepository.findAll();
+    }
+
+    @Override
+    public void addUri(Uri uri){
+        uriRepository.saveAndFlush(uri);
     }
 
 }

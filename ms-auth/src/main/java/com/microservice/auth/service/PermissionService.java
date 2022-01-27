@@ -1,9 +1,17 @@
 package com.microservice.auth.service;
 
+import com.microservice.auth.entity.Role;
+import com.microservice.auth.entity.Uri;
+
+import java.util.List;
+
 public interface PermissionService {
     void checkAuth(Long uid, String uri);
 
-    void addRole(String name);
+    List<Role> getRoleList();
+    void addRole(Role role);
+    void updateRole(Role role);
+    void deleteRole(Long id);
 
     void addRoleUri(Long roleId, String uri);
 
@@ -11,4 +19,6 @@ public interface PermissionService {
 
     void deleteUserRole(Long uid, Long ...roleId);
 
+    List<Uri> getUriList();
+    void addUri(Uri uri);
 }
