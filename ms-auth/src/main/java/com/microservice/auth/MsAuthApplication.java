@@ -7,7 +7,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing
-@SpringBootApplication(scanBasePackages = {"com.microservice.auth", "com.microservice.starter"})
+@SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients
 public class MsAuthApplication {

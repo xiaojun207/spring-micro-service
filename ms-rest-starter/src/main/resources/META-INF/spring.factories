@@ -1,0 +1,1 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.microservice.starter.config.DefaultWebMvcConfigurer,com.microservice.starter.config.GlobalResponse,com.microservice.starter.config.GlobalException, com.microservice.starter.config.MsgFactory,com.microservice.starter.advice.StrategyAdvice

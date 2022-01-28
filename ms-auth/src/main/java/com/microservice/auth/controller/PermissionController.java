@@ -1,6 +1,5 @@
 package com.microservice.auth.controller;
 
-import com.microservice.auth.entity.Role;
 import com.microservice.auth.entity.Uri;
 import com.microservice.auth.service.PermissionService;
 import com.microservice.starter.annotation.Strategy;

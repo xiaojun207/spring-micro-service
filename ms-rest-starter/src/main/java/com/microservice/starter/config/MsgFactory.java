@@ -16,7 +16,7 @@ public class MsgFactory {
 	public void init() {
 		if (null == messageResource) {
 			messageResource = new ResourceBundleMessageSource();
-			messageResource.addBasenames("SysCode", "AuthCode");
+			messageResource.addBasenames("SysCode", "ErrorCode");
 		}
 	}
 

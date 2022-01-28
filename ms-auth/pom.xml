@@ -7,7 +7,6 @@
         <groupId>com.microservice</groupId>
         <artifactId>spring-micro-service</artifactId>
         <version>1.0.0</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>com.microservice</groupId>
@@ -17,14 +16,14 @@
     <description>ms-auth</description>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>16</java.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.microservice</groupId>
             <artifactId>ms-rest-starter</artifactId>
-            <version>${project.version}</version>
+            <version>1.0.0</version>
         </dependency>
 
         <dependency>
