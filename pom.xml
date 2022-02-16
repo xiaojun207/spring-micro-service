@@ -30,6 +30,7 @@
         <module>ms-gateway</module>
         <module>ms-auth</module>
         <module>ms-test</module>
+        <module>ms-mybatis-plus-generator</module>
     </modules>
 
     <dependencyManagement>
